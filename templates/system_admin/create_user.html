@@ -1,0 +1,92 @@
+{% extends 'system_admin/base.html' %}
+{% block user %}
+    active
+{% endblock %}
+{% block content %}
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            {% if msg %}
+                <div class="alert alert-danger" role="alert">
+                  {{ msg }}
+                </div>
+            {% endif %}
+            <div class="container-xxl flex-grow-1 container-p-y">
+                 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Users/</span> Create user</h4>
+                 <div class="row">
+                    <div class="col-xl">
+                      <div class="card mb-4">
+                        <div class="card-body">
+                          <form method="post">
+                              {% csrf_token %}
+                            <div class="mb-3">
+                              <label class="form-label" for="InputFirstName">First Name</label>
+                              <input type="text" class="form-control" id="InputFirstName" name="InputFirstName" placeholder="First Name" />
+                            </div>
+                            <div class="mb-3">
+                              <label class="form-label" for="InputLastName">Last Name</label>
+                              <input type="text" class="form-control" id="InputLastName" name="InputLastName" placeholder="Last Name" />
+                            </div>
+                            <div class="mb-3">
+                              <label class="form-label" for="InputUsername">Username</label>
+                              <input type="text" class="form-control" id="InputUsername" name="InputUsername" placeholder="Username" />
+                            </div>
+                            <div class="mb-3">
+                              <label class="form-label" for="exampleInputEmail">Email</label>
+                              <div class="input-group input-group-merge">
+                                <input
+                                  type="text"
+                                  id="exampleInputEmail"
+                                  name="exampleInputEmail"
+                                  class="form-control"
+                                  placeholder="example@example.com"
+                                />
+                              </div>
+                            </div>
+                            <div class="mb-3">
+                              <label class="form-label" for="inputPassword">Password</label>
+                              <input
+                                type="password"
+                                id="inputPassword"
+                                name="inputPassword"
+                                class="form-control phone-mask"
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label class="form-label" for="reInputPassword">Re Type Password</label>
+                              <input
+                                type="password"
+                                id="reInputPassword"
+                                name="reInputPassword"
+                                class="form-control phone-mask"
+                              />
+                            </div>
+                            <div class="row mb-3">
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="InputIsSuperUser" name="InputIsSuperUser">
+                                    <label class="form-check-label" for="InputIsSuperUser">
+                                        Is Superuser ?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row mb-3">
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="InputIsStaffUser" name="InputIsStaffUser">
+                                    <label class="form-check-label" for="InputIsStaffUser">
+                                        Is Staff ?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

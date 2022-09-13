@@ -1,0 +1,199 @@
+{% extends 'system_admin/base.html' %}
+{% block voter %}
+    active
+{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            {% if msg %}
+                <div class="alert alert-danger" role="alert">
+                  {{ msg }}
+                </div>
+            {% endif %}
+            <div class="container-xxl flex-grow-1 container-p-y">
+                 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Voters/</span> Create voter</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                       <div class="col-xl">
+                          <div class="card mb-4">
+                            <div class="card-body">
+                              <div class="mb-3">
+                                <label for="first_name" class="form-label">Voter ID</label>
+                                <input class="form-control" type="text" id="first_name" name="first_name" placeholder="Enter voter Id"/>
+                              </div>
+                            </div>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-xl">
+                          <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                              <h5 class="mb-0">Voter Information</h5>
+                              <small class="text-muted float-end">Personal information</small>
+                            </div>
+                            <div class="card-body">
+                               <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="first_name">First Name</label>
+                                            <input type="text" class="form-control" id="first_name" placeholder="First Name" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="last_name">Last Name</label>
+                                            <input type="text" class="form-control" id="last_name" placeholder="Last Name" />
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="street_number">Street Number</label>
+                                            <input type="text" class="form-control" id="street_number" placeholder="Street Number" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="street_name">Street Name</label>
+                                            <input type="text" class="form-control" id="street_name" placeholder="Street Name" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="apartment">Apartment</label>
+                                            <input type="text" class="form-control" id="apartment" placeholder="Apartment" />
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="city">City</label>
+                                            <input type="text" class="form-control" id="street_number" placeholder="City" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="zip_code">Zip Code</label>
+                                            <input type="text" class="form-control" id="street_name" placeholder="Zip Code" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="dob">Date of birth</label>
+                                            <input type="date" class="form-control" id="dob" placeholder="Date of birth" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="sex">Sex</label>
+                                            <input type="text" class="form-control" id="sex" placeholder="Sex" />
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="area_code">Area Code</label>
+                                            <input type="text" class="form-control" id="area_code" placeholder="Area Code" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="phone">Phone</label>
+                                            <input type="text" class="form-control" id="phone" placeholder="Phone Number" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="email">Email</label>
+                                            <input type="text" class="form-control" id="email" placeholder="Email" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                       <div class="col-xl">
+                          <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                              <h5 class="mb-0">Voting Information</h5>
+                              <small class="text-muted float-end">Voting information</small>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="registration_date">Registration Date</label>
+                                        <input type="date" class="form-control" id="registration_date" placeholder="Registration Date" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="party_code">Party Code</label>
+                                            <input type="text" class="form-control" id="party_code" placeholder="Party Code" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="town_code">Town Code</label>
+                                            <input type="text" class="form-control" id="town_code" placeholder="Town Code" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="district_code">District Code</label>
+                                            <input type="text" class="form-control" id="district_code" placeholder="District Code" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="legislative_code">Legislative Code</label>
+                                            <input type="text" class="form-control" id="legislative_code" placeholder="Legislative Code" />
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-check-inline mt-3">
+                                        <input class="form-check-input" type="checkbox" id="has_mailing"/>
+                                        <label class="form-check-label" for="has_mailing">Has mailing?</label>
+                                    </div>
+                                    <br>
+                                    <div class="row" id="pop_mailing_address">
+                                        <div class="mb-3">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="mail_street_number">Street Number</label>
+                                                    <input type="text" class="form-control" id="mail_street_number" placeholder="Street Number" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="mail_street_name">Street Name</label>
+                                                    <input type="text" class="form-control" id="mail_street_name" placeholder="Street Name" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="mail_apartment">Apartment</label>
+                                                    <input type="text" class="form-control" id="mail_apartment" placeholder="Apartment" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="mail_city">City</label>
+                                                    <input type="text" class="form-control" id="mail_street_number" placeholder="City" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="mail_zip_code">Zip Code</label>
+                                                    <input type="text" class="form-control" id="mail_zip_code" placeholder="Zip Code" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        let checkbox = $('#has_mailing')
+        let has_mailing = $('#pop_mailing_address')
+        has_mailing.hide();
+
+        checkbox.on('click', function() {
+            if($(this).is(':checked')) {
+              has_mailing.show();
+              has_mailing.find('input').attr('required', true);
+            } else {
+              has_mailing.hide();
+              has_mailing.find('input').attr('required', false);
+            }
+        })
+    </script>
+{% endblock %}

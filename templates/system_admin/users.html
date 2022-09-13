@@ -1,0 +1,42 @@
+{% extends 'system_admin/base.html' %}
+{% block user %}
+    active
+{% endblock %}
+{% block content %}
+    <div class="container-fluid pt-4 px-4">
+        <div class="text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h2 class="mb-0">Users</h2>
+                <a class="btn btn-info" href="{% url 'create_user' %}">Add user</a>
+            </div>
+              <div class="card">
+                <div class="table-responsive text-nowrap">
+                  <table class="table table-striped">
+                    <thead>
+                         <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                         </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      {% for user in users %}
+                        <tr>
+                            <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            {% if user.is_superuser %}
+                            <td>Admin</td>
+                            {% else %}
+                            <td>Staff</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+        </div>
+    </div>
+{% endblock %}

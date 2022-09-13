@@ -1,0 +1,161 @@
+{% extends 'system_admin/base.html' %}
+{% block voter %}
+active
+{% endblock %}
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        {% if msg %}
+        <div class="alert alert-danger" role="alert">
+            {{ msg }}
+        </div>
+        {% endif %}
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Voters/</span>Voter import</h4>
+            <div class="row">
+                <div class="col-xl">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form action="http://115.69.213.102:6066/voter/file_upload" method="POST"
+                                enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Browse file</label>
+                                    <input class="form-control" type="file" id="voter_file" name="voter_file"
+                                        required />
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="sync">Submit</button>
+                                <br><br>
+                                <div id="sync_data" style="display: none;"><i class="fa fa-spinner fa-spin"></i> Please wait.File is processing...</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="display: none;" id="column_map">
+                <div class="col-xl">
+                    <div class="card mb-4">
+                        <div class="card-body overflow-scroll">
+                            <h4>Column mapping section</h4>
+                            <table class="table table-striped" id="voter_data_table">
+                                <thead>
+                                    <tr>
+                                        {% for i in cols %}
+                                        <th>
+                                            <input style="width: 140px;" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Set column">
+                                            <datalist id="datalistOptions">
+                                                <option data-value="VoterId">Voter Id</option>
+                                                <option data-value="VoterFirstName">Voter First Name</option>
+                                                <option data-value="VoterMiddleName">Voter Middle Name</option>
+                                                <option data-value="VoterLastName">Voter Last Name</option>
+                                                <option data-value="ResidenceStreetNumber">Residence Street Number</option>
+                                                <option data-value="ResidenceStreetName">Residence Street Name</option>
+                                                <option data-value="ResidenceApartment">Residence Apartment</option>
+                                                <option data-value="ResidenceCity">Residence City</option>
+                                                <option data-value="ResidenceState">Residence State</option>
+                                                <option data-value="ResidenceFullZip">Residence Full Zip</option>
+                                                <option data-value="DobFormatted">Dob Formatted</option>
+                                                <option data-value="VoterSex">Voter Sex</option>
+                                                <option data-value="VoterAreaCode">Voter Area Code</option>
+                                                <option data-value="VoterPhone">Voter Phone</option>
+                                                <option data-value="VoterEMail">Voter EMail</option>
+                                                <option data-value="VoterPartyCode">Voter Party Code</option>
+                                                <option data-value="MailingAddress">Mailing Address</option>
+                                                <option data-value="MailingCity">Mailing City</option>
+                                                <option data-value="MailingState">Mailing State</option>
+                                                <option data-value="MailingZip">Mailing Zip</option>
+                                                <option data-value="ResidenceStreetAddress">Residence Street Address</option>
+                                                <option data-value="RegistrationDateFormatted">Registration Date Formatted</option>
+                                                <option data-value="VoterTownCode">Voter TownCode</option>
+                                                <option data-value="VoterDistrictCode">Voter District Code</option>
+                                                <option data-value="VoterStateLegislativeDistrictCode">Voter State Legislative District Code</option>
+                                            </datalist>
+                                        </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <br>
+                            <a class="btn btn-primary" onclick="MapColumn();" style="color: #ffffff;">Map column</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="http://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<script src="http://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" defer></script>
+<script>
+    $('form').submit(function (e) {
+        e.preventDefault();
+        document.getElementById("sync").disabled = true;
+        $("#column_map").show();
+        $("#sync_data").show();
+        let formData = new FormData($(this)[0]);
+        formData.append('voter_file', $('#voter_file')[0].files[0]);
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            headers: { "X-CSRFToken": '{{csrf_token}}' },
+            success: function (response) {
+                for (let i = 0; i < response['cols'].length; i++) {
+                    let hd_text = '<th><a class="btn btn-primary" style="color: #ffffff" onclick="MapColumn('+i+')">Map</a></th>'
+                    {#let hd_text = '<th><input style="width: 130px;" class="form-control" id="exampleDataList'+i+'" list="datalistOptions'+i+'" placeholder="Set Column">'+#}
+                    {#    '<datalist id="datalistOptions'+i+'">'+#}
+                    {#        '<option data-value="VoterId" value="Voter Id">'+#}
+                    {#        '<option data-value="VoterFirstName" value="Voter First Name">'+#}
+                    {#        '<option data-value="VoterMiddleName" value="Voter Middle Name">'+#}
+                    {#        '<option data-value="VoterLastName" value="Voter Last Name">'+#}
+                    {#        '<option data-value="ResidenceStreetNumber" value="Residence Street Number">'+#}
+                    {#        '<option data-value="ResidenceStreetName" value="Residence Street Name">'+#}
+                    {#        '<option data-value="ResidenceApartment" value="Residence Apartment">'+#}
+                    {#        '<option data-value="ResidenceCity" value="Residence City">'+#}
+                    {#        '<option data-value="ResidenceState" value="Residence State">'+#}
+                    {#        '<option data-value="ResidenceFullZip" value="Residence Full Zip">'+#}
+                    {#        '<option data-value="DobFormatted" value="Dob Formatted">'+#}
+                    {#        '<option data-value="VoterSex" value="Voter Sex">'+#}
+                    {#        '<option data-value="VoterAreaCode" value="Voter Area Code">'+#}
+                    {#        '<option data-value="VoterPhone" value="Voter Phone">'+#}
+                    {#        '<option data-value="VoterEMail" value="Voter EMail">'+#}
+                    {#        '<option data-value="VoterPartyCode" value="Voter Party Code">'+#}
+                    {#        '<option data-value="MailingAddress" value="Mailing Address">'+#}
+                    {#        '<option data-value="MailingCity" value="Mailing City">'+#}
+                    {#        '<option data-value="MailingState" value="Mailing State">'+#}
+                    {#        '<option data-value="MailingZip" value="Mailing Zip">'+#}
+                    {#        '<option data-value="ResidenceStreetAddress" value="Residence Street Address">'+#}
+                    {#        '<option data-value="RegistrationDateFormatted" value="Registration Date Formatted">'+#}
+                    {#        '<option data-value="VoterTownCode" value="Voter TownCode">'+#}
+                    {#        '<option data-value="VoterDistrictCode" value="Voter District Code">'+#}
+                    {#        '<option data-value="VoterStateLegislativeDistrictCode" value="Voter State Legislative District Code">'+#}
+                    {#    '</datalist>'+#}
+                    {#'</th>'#}
+
+                    $('#voter_data_table thead tr').append(hd_text);
+                }
+
+                $("#sync_data").hide();
+                document.getElementById("sync").disabled = false;
+                $('#voter_data_table').DataTable({
+                    data : response['row_value_list'],
+                    ordering: false
+                });
+            },
+        });
+    });
+
+    function MapColumn(col_index){
+        let table = $('#voter_data_table').DataTable();
+        let data = table
+            .columns()
+            .data();
+        alert(data[col_index])
+    }
+</script>
+{% endblock %}
